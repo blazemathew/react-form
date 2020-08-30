@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
 import 'antd/dist/antd.css';
 
 import { Form, Input, Button, Checkbox } from 'antd';
@@ -20,6 +21,22 @@ const tailLayout = {
 };
 
 const Form1 = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: 'React form POST Data' })
+    };
+    fetch('https://jsonplaceholder.typicode.com/posts', requestOptions)
+        .then(response => response.json())
+        .then(data => setUsername(data.value));
+        
+
+}, []);
+  
   
   const onFinish = values => {
     console.log('Success:', values);
@@ -29,8 +46,14 @@ const Form1 = () => {
     console.log('Failed:', errorInfo);
   };
 
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    console.log(username);
+  };
+
   return (
-    <Form
+    <div>
+      <Form
       {...layout}
       name="basic"
       initialValues={{
@@ -49,7 +72,13 @@ const Form1 = () => {
           },
         ]}
       >
-        <Input />
+        <Input
+         placeholder="User Name"
+         value={username} 
+         onChange={event => {
+           setUsername(event.target.value);
+         }}/>
+    
       </Form.Item>
 
       <Form.Item
@@ -62,7 +91,12 @@ const Form1 = () => {
           },
         ]}
       >
-        <Input.Password />
+        <Input.Password 
+        value={password}
+        onChange={event => {
+          setPassword(event.target.value);
+        }}
+        />
       </Form.Item>
 
       <Form.Item {...tailLayout} name="remember" valuePropName="checked">
@@ -70,11 +104,20 @@ const Form1 = () => {
       </Form.Item>
 
       <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" onClick={e => onSubmitHandler(e)}>
           Submit
         </Button>
       </Form.Item>
     </Form>
+    <div>
+        Post data with React Form: 
+        <section>Username :{username}</section>
+    </div>
+  </div>
+     
+    
+
+    
   );
 };
 
