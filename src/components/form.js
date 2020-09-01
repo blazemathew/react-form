@@ -5,7 +5,6 @@ import 'antd/dist/antd.css';
 import {  Input} from 'antd';
 import Form, { Field } from 'rc-field-form';
 
-
 export default () => {
   const [form] = Form.useForm();
 
@@ -21,12 +20,8 @@ export default () => {
     fetch('https://jsonplaceholder.typicode.com/posts', requestOptions)
         .then(response => response.json())
         .then(data => setUsername(data.value));
-        
-
 }, []);
   
-  
-
 
   return (
     <div>
@@ -35,9 +30,7 @@ export default () => {
       event.stopPropagation();
       form.validateFields().then(function (values) {
         console.log(values);
-        
-        
-      }) // Do nothing about submit catch
+      }) 
       .catch(function (e) {
         return e;
       });
@@ -81,10 +74,6 @@ export default () => {
         <section>Username :{username}</section>
     </div>
   </div>
-     
-    
-
-    
   );
 };
 
