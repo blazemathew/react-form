@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useCallback } from 'react';
 
-import 'antd/dist/antd.css';
-
-import {  Input} from 'antd';
+import { TextField,Button } from '@shopify/polaris';
 import Form, { Field } from 'rc-field-form';
+
 
 export default () => {
   const [form] = Form.useForm();
-
+  
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const handleUser = useCallback((newValue) => setUsername(newValue), []);
+  const handlePassword = useCallback((newValue) => setPassword(newValue), []);
 
   useEffect(() => {
     const requestOptions = {
@@ -45,28 +47,20 @@ export default () => {
       }}
 
       >
-        Username : 
-        <Field name="username">
-          <Input placeholder="Username" 
-          value={username} 
-         onChange={event => {
-           setUsername(event.target.value);
-         }}/>
-        </Field>
         <br />
-        Password : 
+
+        <Field name="username">
+          <TextField label="Email" value={username} style={{type: "right",width: 5}} onChange={handleUser} />
+        </Field>
+
+        <br />
+
         <Field name="password">
-        <Input.Password 
-        placeholder="Password"
-        value={password}
-        onChange={event => {
-          setPassword(event.target.value);
-        }}/>
+          <TextField label="Password" value={password} type= "password" onChange={handlePassword} />
         </Field>
       </Form>
-      <button type="primary"  >
-          Submit
-      </button>
+
+      <Button primary>Submit</Button>
     </form>
       
     <div>
@@ -74,7 +68,6 @@ export default () => {
         <section>Username :{username}</section>
     </div>
   </div>
-  
   );
 };
 
